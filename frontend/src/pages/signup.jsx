@@ -9,43 +9,66 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-  e.preventDefault();
-  setError("");
-  try {
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    console.log("Signup response data:", data);
-    console.log("Signup response error:", error);
+    e.preventDefault();
+    setError("");
+    setMessage("");
 
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    if (data?.user) {
-      await supabase.from("profiles").upsert({
-        id: data.user.id,
-        username,
-        email: data.user.email,
+    try {
+      // 1️⃣ Signup user with Supabase
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      if (data?.user) {
+        // 2️⃣ Insert user profile in Supabase
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .upsert({
+            id: data.user.id,
+            username,
+            email: data.user.email,
+          });
+
+        if (profileError) {
+          setError("Database error saving new user profile.");
+          console.error(profileError);
+          return;
+        }
+
+        // 3️⃣ Show message to check email
+        setMessage(
+          "Signup successful! Check your email for the confirmation link."
+        );
+        setEmail("");
+        setPassword("");
+        setUsername("");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Unexpected error occurred.");
     }
-
-    navigate("/login");
-  } catch (err) {
-    setError("Unexpected error: " + err.message);
-  }
-};
-
-
-
+  };
 
   return (
     <AuthLayout>
       <div className="bg-black/30 backdrop-blur-lg shadow-2xl rounded-2xl p-8 w-full max-w-md text-white">
         <h2 className="text-3xl font-bold mb-6 text-center">Create Account</h2>
+
         {error && <p className="text-red-300 mb-3">{error}</p>}
+        {message && <p className="text-green-300 mb-3">{message}</p>}
 
         <form onSubmit={handleSignup}>
           <input
@@ -76,6 +99,7 @@ export default function Signup() {
             Sign Up
           </button>
         </form>
+
         <p className="mt-4 text-sm text-center">
           Already have an account?{" "}
           <Link to="/login" className="text-yellow-300 hover:underline">
