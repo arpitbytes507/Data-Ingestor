@@ -16,7 +16,7 @@ export default function Signup() {
   setError("");
 
   try {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password,options: { emailRedirectTo: "https://your-app.vercel.app/login" }, });
 
     if (error) {
       console.error("Signup error:", error);
