@@ -140,7 +140,7 @@ export default function Ingest() {
           </div>
 
           <button
-            type="button"
+            typ
             onClick={onSubmit}
             disabled={loading || (!text && !file)}
             className="w-full bg-yellow-400 text-purple-700 font-bold py-3 rounded-lg shadow hover:bg-yellow-300 active:scale-95 transition disabled:opacity-50"
