@@ -9,7 +9,7 @@ export default function AuthCallback() {
 
   useEffect(() => {
     async function handleRedirect() {
-      const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+      const { session, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
       if (error) {
         console.error("Auth callback error:", error.message);
         navigate("/login"); // redirect on failure
