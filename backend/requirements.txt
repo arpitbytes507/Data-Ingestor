@@ -6,9 +6,4 @@ python-jose
 PyJWT
 python-dotenv
 Pillow
-<<<<<<< HEAD
-...
-=======
 
-
->>>>>>> 877d28e5f433eb452c648e82f230e674b900cc1d
