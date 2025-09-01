@@ -1,6 +1,5 @@
 // src/pages/Signup.jsx
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { supabase } from "../../supaBase/supaBaseclient";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
@@ -15,19 +14,30 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
-    const{data,error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      setError(error.message);
+
+    // ✅ Proper destructuring
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (signUpError) {
+      setError(signUpError.message);
       return;
     }
 
-    
-    if(data.user) {
-      await supabase.from("profiles").upsert({
-        id: data.user.id,
+    // ✅ Check for user object properly
+    if (signUpData?.user) {
+      const { error: profileError } = await supabase.from("profiles").upsert({
+        id: signUpData.user.id,     // UUID from Supabase
         username,
-        email: data.user.email,
+        email: signUpData.user.email,
       });
+
+      if (profileError) {
+        setError(profileError.message);
+        return;
+      }
     }
 
     navigate("/login");
