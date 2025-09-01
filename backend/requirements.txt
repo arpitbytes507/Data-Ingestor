@@ -6,4 +6,5 @@ python-jose
 PyJWT
 python-dotenv
 Pillow
-...
+
+
