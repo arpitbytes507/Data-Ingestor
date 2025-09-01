@@ -1,4 +1,5 @@
 // src/pages/AuthCallback.jsx
+import React from "react";
 import { useEffect } from "react";
 import { supabase } from "../../supaBase/supaBaseclient";
 import { useNavigate } from "react-router-dom";

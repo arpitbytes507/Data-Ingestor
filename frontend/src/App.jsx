@@ -8,6 +8,7 @@ import Ingest from "./pages/Ingest";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import Navbar from "./components/Navbar";
+import AuthCallback from "./pages/AuthCallback";
 
 
 export default function App() {
