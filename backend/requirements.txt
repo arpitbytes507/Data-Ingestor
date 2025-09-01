@@ -1,6 +1,9 @@
 fastapi
 uvicorn[standard]
-pydantic
 python-multipart
-Pillow
+pydantic
 python-jose
+PyJWT
+python-dotenv
+Pillow
+...
