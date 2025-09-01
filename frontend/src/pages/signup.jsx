@@ -25,6 +25,7 @@ export default function Signup() {
 
     if (signUpError) {
       setError(signUpError.message);
+      console.error("Signup Error:", signUpError);
       return;
     }
 
