@@ -7,7 +7,7 @@ import AuthLayout from "../components/AuthLayout";
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");   
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -16,20 +16,21 @@ export default function Signup() {
     setError("");
 
     // ✅ Proper destructuring
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      }
+    );
 
     if (signUpError) {
       setError(signUpError.message);
       return;
     }
 
-    // ✅ Check for user object properly
     if (signUpData?.user) {
       const { error: profileError } = await supabase.from("profiles").upsert({
-        id: signUpData.user.id,     // UUID from Supabase
+        id: signUpData.user.id,
         username,
         email: signUpData.user.email,
       });
