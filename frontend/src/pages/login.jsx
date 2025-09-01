@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     const handleOAuthRedirect = async () => {
-      const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+      const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
         console.error("OAuth redirect error:", error.message);
         return;
