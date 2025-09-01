@@ -16,6 +16,7 @@ app = FastAPI(title="Multimodal Ingest API", version="0.1.0")
 
 origins = [
     "https://data-ingestor.vercel.app",
+    "https://data-ingestor-git-main-arpit-dhumanes-projects.vercel.app",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -40,6 +41,9 @@ async def preflight_handler(request: Request, rest_of_path: str):
 def root():
     return {"message": "Backend is running 🚀"}
 
+@app.get("/")
+def health_check():
+    return {"status": "ok"}
 
 @app.post("/api/process")
 async def process_endpoint(
