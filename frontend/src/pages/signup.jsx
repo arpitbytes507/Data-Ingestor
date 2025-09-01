@@ -1,4 +1,5 @@
 // src/pages/Signup.jsx
+import React from "react";
 import { useState } from "react";
 import { supabase } from "../../supaBase/supaBaseclient";
 import { Link, useNavigate } from "react-router-dom";
