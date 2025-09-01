@@ -12,38 +12,39 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    // ✅ Proper destructuring
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
-      {
-        email,
-        password,
-      }
-    );
+  try {
+    const { data, error } = await supabase.auth.signUp({ email, password });
 
-    if (signUpError) {
-      setError(signUpError.message);
-      console.error("Signup Error:", signUpError);
+    if (error) {
+      console.error("Signup error:", error);
+      setError(error.message);
       return;
     }
 
-    if (signUpData?.user) {
+    if (data?.user) {
       const { error: profileError } = await supabase.from("profiles").upsert({
-        id: signUpData.user.id,
+        id: data.user.id,
         username,
-        email: signUpData.user.email,
+        email: data.user.email,
       });
 
       if (profileError) {
+        console.error("Profile insert error:", profileError);
         setError(profileError.message);
         return;
       }
     }
 
     navigate("/login");
-  };
+  } catch (err) {
+    console.error("Unexpected signup error:", err);
+    setError("Unexpected error occurred");
+  }
+};
+
 
   return (
     <AuthLayout>
