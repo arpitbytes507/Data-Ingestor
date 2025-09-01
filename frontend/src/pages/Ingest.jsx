@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { supabase } from "../../supaBase/supaBaseclient";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = " https://data-ingestor-1.onrender.com/api/process";
+const API_URL = "https://data-ingestor-1.onrender.com/api/process";
 
 export default function Ingest() {
   const [docs, setDocs] = useState([]);
