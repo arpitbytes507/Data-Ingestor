@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 
@@ -13,10 +14,12 @@ from auth import verify_token   # make sure auth.py exists as explained before
 
 app = FastAPI(title="Multimodal Ingest API", version="0.1.0")
 
+origins = [
+    "https://data-ingestor-egac7x5zs-arpit-dhumanes-projects.vercel.app",
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",   # your frontend
-        "http://127.0.0.1:5173","https://data-ingestor-egac7x5zs-arpit-dhumanes-projects.vercel.app" ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],    
     allow_headers=["*"],
@@ -27,6 +30,12 @@ class ResponseModel(BaseModel):
    metadata: dict
    result: dict
    
+
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(request: Request, rest_of_path: str):
+    """Handle OPTIONS preflight requests explicitly"""
+    return JSONResponse(content={"message": "CORS preflight OK"})
+    
 @app.get("/")
 def root():
     return {"message": "Backend is running 🚀"}
