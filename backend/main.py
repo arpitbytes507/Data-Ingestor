@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
-
+from fastapi import Request
 from processors.text_processor import process_text
 from processors.image_processor import process_image
 from processors.audio_processor import process_audio
