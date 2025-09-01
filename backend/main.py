@@ -16,7 +16,7 @@ app = FastAPI(title="Multimodal Ingest API", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173",   # your frontend
-        "http://127.0.0.1:5173" ],
+        "http://127.0.0.1:5173","https://data-ingestor-egac7x5zs-arpit-dhumanes-projects.vercel.app" ],
     allow_credentials=True,
     allow_methods=["*"],    
     allow_headers=["*"],
