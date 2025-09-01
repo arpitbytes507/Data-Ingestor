@@ -14,36 +14,31 @@ export default function Signup() {
   const handleSignup = async (e) => {
   e.preventDefault();
   setError("");
-
   try {
-    const { data, error } = await supabase.auth.signUp({ email, password,options: { emailRedirectTo: "https://your-app.vercel.app/login" }, });
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    console.log("Signup response data:", data);
+    console.log("Signup response error:", error);
 
     if (error) {
-      console.error("Signup error:", error);
       setError(error.message);
       return;
     }
 
     if (data?.user) {
-      const { error: profileError } = await supabase.from("profiles").upsert({
+      await supabase.from("profiles").upsert({
         id: data.user.id,
         username,
         email: data.user.email,
       });
-
-      if (profileError) {
-        console.error("Profile insert error:", profileError);
-        setError(profileError.message);
-        return;
-      }
     }
 
     navigate("/login");
   } catch (err) {
-    console.error("Unexpected signup error:", err);
-    setError("Unexpected error occurred");
+    setError("Unexpected error: " + err.message);
   }
 };
+
+
 
 
   return (
