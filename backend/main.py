@@ -26,6 +26,11 @@ class ResponseModel(BaseModel):
    type: str
    metadata: dict
    result: dict
+   
+@app.get("/")
+def root():
+    return {"message": "Backend is running 🚀"}
+
 
 @app.post("/api/process")
 async def process_endpoint(
