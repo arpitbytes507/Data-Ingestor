@@ -15,9 +15,13 @@ from auth import verify_token   # make sure auth.py exists as explained before
 app = FastAPI(title="Multimodal Ingest API", version="0.1.0")
 
 origins = [
-    "https://data-ingestor.vercel.app",
-    "https://data-ingestor-git-main-arpit-dhumanes-projects.vercel.app",
+    "http://localhost:3000",   # for local dev
+    "http://127.0.0.1:5173",   # if using Vite
+    "https://data-ingestor-1.onrender.com",  # Render backend domain
+    "https://data-ingestor.vercel.app",      # Production frontend
+    "https://data-ingestor-git-main-arpit-dhumanes-projects.vercel.app", # Preview frontend
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
